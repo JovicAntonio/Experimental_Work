@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pgsqladmin
+      POSTGRES_PASSWORD: pgsqladminpass
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: pgadminpass
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    tty: true
+    depends_on:
+      - postgres
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
